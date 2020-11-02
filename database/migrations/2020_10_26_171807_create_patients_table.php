@@ -18,7 +18,7 @@ class CreatePatientsTable extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('age');
-            $table->foreignId('user_id')->constrained();
+            $table->string('gender');
             $table->timestamps();
         });
     }

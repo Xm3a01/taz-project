@@ -17,8 +17,6 @@ class CreateHospitalsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('number');
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('doctor_id')->constrained();
             $table->timestamps();
         });
     }

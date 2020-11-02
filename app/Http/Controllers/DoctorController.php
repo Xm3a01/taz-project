@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Patient;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
-class PatientController extends Controller
+class DoctorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    $table->string('name');
+    $table->string('phone_number');
+    $table->string('gender');
+
+
     public function index()
     {
-        $patients = Patient::all();
-        $users = User::all();
-        return view ('dashboard.patients.index',['patients' => $patients , 'users' => $users]);
+        $doctors = Doctor::all();
+        return view('dashboard.doctors.index');
     }
 
     /**
@@ -39,16 +41,7 @@ class PatientController extends Controller
      */
     public function store(Request $request)
     {
-        Patient::create([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'age' => $request->age,
-            'user_id' => $request->user_id
-        ]);
-
-        Session::flash('Success', 'Admin added successfully');
-
-        return redirect('/dashboard/patients');
+        //
     }
 
     /**
@@ -80,13 +73,9 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Patient $patient)
+    public function update(Request $request, $id)
     {
-           $patient->update([
-            'name' => $request->name,
-            'phone' => $request->phone,
-            'age' => $request->age,
-        ]);
+        //
     }
 
     /**
@@ -95,9 +84,8 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Patient $patient)
+    public function destroy($id)
     {
-        $patient->delete();
-
+        //
     }
 }
