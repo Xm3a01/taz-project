@@ -13,9 +13,7 @@ class AddHospitalToBookingTable extends Migration
      */
     public function up()
     {
-        Schema::table('hospitals', function (Blueprint $table) {
-            $table->foreignId('booking_id')->constrained();
-        });
+        
         Schema::table('patients', function (Blueprint $table) {
             $table->foreignId('hospital_id')->constrained();
             $table->foreignId('doctor_id')->nullable()->constrained();
@@ -33,9 +31,7 @@ class AddHospitalToBookingTable extends Migration
      */
     public function down()
     {
-        Schema::table('hospitals', function (Blueprint $table) {
-            $table->dropColumn('booking_id');
-        });
+        
 
         Schema::table('patients', function (Blueprint $table) {
             $table->dropColumn(['hospital_id' , 'doctor_id']);

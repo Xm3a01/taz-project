@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class IsDoctor
+class IsAdmin
 {
     /**
      * Handle an incoming request.
@@ -16,11 +16,12 @@ class IsDoctor
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user() && Auth::user()->is_doctor == 1){
+        if(Auth::user() && Auth::user()->is_admin == 1){
 
             return $next($request);
         } 
         
-        return back();
+        Auth::logout();
+        return redirect('/login');
     }
 }

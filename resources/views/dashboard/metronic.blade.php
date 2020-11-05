@@ -29,8 +29,7 @@
             <!-- BEGIN CONTENT BODY-->
             @if (Session::has('Success'))
                 <p style="color: white;">
-                    {{ Session::
-                    ('Success') }}
+                    {{ Session::get('success') }}
                 </p>
             @endif
 

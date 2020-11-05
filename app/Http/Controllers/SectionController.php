@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Section;
+use App\Hospital;
 use Illuminate\Http\Request;
 
 class SectionController extends Controller
@@ -13,18 +15,12 @@ class SectionController extends Controller
      */
     public function index()
     {
-        //
+        $sections = Section::all();
+        $sections->load('hospital');
+        $hospitals = Hospital::all();
+        return view('dashboard.sections.index' , ['sections' => $sections , 'hospitals' => $hospitals]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -34,19 +30,16 @@ class SectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request , [
+            'name' => 'required',
+            'hospital_id' => 'required'
+        ]);
+
+        Section::create($request->all());
+        \Session::flash('success' , 'Section successfuly add');
+        return redirect()->route('sections.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -54,9 +47,10 @@ class SectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Section $section)
     {
-        //
+        $hospitals = Hospital::all();
+        return view('dashboard.sections.edit' , ['section' => $section , 'hospitals' => $hospitals]);
     }
 
     /**
@@ -66,9 +60,11 @@ class SectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Section $section)
     {
-        //
+        $section->update($request->all());
+        \Session::flash('success' , 'Section Successfully update');
+        return redirect()->route('sections.index');
     }
 
     /**
@@ -77,8 +73,10 @@ class SectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Section $section)
     {
-        //
+        $section->delete();
+        \Session::flash('success' , 'Section Successfully update');
+        return redirect()->route('sections.index');
     }
 }

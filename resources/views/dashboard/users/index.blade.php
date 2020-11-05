@@ -5,7 +5,7 @@
 <div class="page-bar">
     <ul class="page-breadcrumb">
         <li>
-            <a href="{{route('dashboard.index')}}">الصفحة الرئيسية</a>
+            <a href="{{route('index')}}">الصفحة الرئيسية</a>
             <i class="fa fa-circle"></i>
         </li>
         <li>
@@ -93,6 +93,9 @@
                         <label>الأسم</label>
                         <input type="name" name="name" class="form-control" placeholder="الأسم" required>
 
+                        <label>الهاتف</label>
+                        <input type="name" name="phone" class="form-control" placeholder="الهاتف" required>
+
                         <label>الأيميل</label>
                         <input type="email" name="email" class="form-control" placeholder="email@email" required>
 
@@ -102,12 +105,12 @@
                         <label> تأكيد كلمة المرور</label>
                         <input type="password" name="password_confirmation" class="form-control" required>
                     </div>
-                    <div class="row">
-                    @foreach($roles as $role)
+                    {{-- <div class="row">
+                    {{-- @foreach($roles as $role)
                         <div class="col-md-4"> <input class="form-control" type="radio" name="role" id="" value ="{{$role->name}}"> {{$role->name}} </div>
                     @endforeach
                     <div class="col-md-4"> <input  type="radio" name="role" id="" value =""> NULL </div>
-                    </div>
+                    </div> --}}
                 
                     <div class="margin-top-10">
                         <button type="submit" class="btn btn-outline sbold green">أضافة</button>

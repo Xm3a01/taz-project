@@ -9,7 +9,7 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <a href="{{route('patients.index')}}">الأدمن</a>
+            <a href="{{route('hospitals.index')}}">الأدمن</a>
             <i class="fa fa-circle"></i>
         </li>
     </ul>
@@ -45,23 +45,21 @@
                     <tr>
                         <th> # </th>
                         <th>الأسم</th>
-                        <th>الأيميل</th>
-                        <th>العمر</th>
+                        <th>الدوام</th>
                         <th>العمليات</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    @foreach($patients as $patient)
+                    @foreach($hospitals as $hospital)
                     <tr>
-                        <td>{{$patient->id}}</td>
-                        <td>{{$patient->name}}</td>
-                        <td>{{$patient->phone}}</td>
-                        <td>{{$patient->age}}</td>
+                        <td>{{$hospital->id}}</td>
+                        <td>{{$hospital->name}}</td>
+                        <td>{{$hospital->duity ? 'مساء' : 'صباح'}}</td>
                         <td>
-                            <form action="{{route('patients.destroy', $patient->id)}}" method="POST">
+                            <form action="{{route('hospitals.destroy', $hospital->id)}}" method="POST">
                                 @csrf {{ method_field('DELETE') }}
-                                <a href="{{route('patients.edit', $patient->id)}}"
+                                <a href="{{route('hospitals.edit', $hospital->id)}}"
                                     class="btn dark btn-sm btn-outline sbold uppercase">
                                     <i class="fa fa-edit"> تعديل </i>
                                 </a>
@@ -89,24 +87,17 @@
                 <h4 class="modal-title">أضافة مشروع</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ route('patients.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('hospitals.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label>الأسم</label>
                         <input type="name" name="name" class="form-control" placeholder="الأسم" required>
 
-                        <label>الأيميل</label>
-                        <input type="text" name="phone" class="form-control" placeholder="phone" required>
-
-                        <label>كلمة المرور</label>
-                        <input type="text" name="age" class="form-control" required>
-
-                        <label>الاسم</label>
-                        <select class="form-control" name="user_id">
-                            <option value="">Select name</option>
-                            @foreach ($users as $user)    
-                               <option value="{{$user->id}}">{{$user->name}}</option>
-                            @endforeach
+                        <label>الدوام</label>
+                        <select name="duity" id="" class="form-control">
+                            <option value="" selected>الدوام</option>
+                            <option value="0" >صباح</option>
+                            <option value="1" >مساء</option>
                         </select>
                        
                        </div>

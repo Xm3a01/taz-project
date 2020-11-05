@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Doctor;
+use App\Hospital;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
@@ -12,26 +14,18 @@ class DoctorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    $table->string('name');
-    $table->string('phone_number');
-    $table->string('gender');
+    // $table->string('name');
+    // $table->string('phone_number');
+    // $table->string('gender');
 
 
     public function index()
     {
         $doctors = Doctor::all();
-        return view('dashboard.doctors.index');
+        $hospitals = Hospital::all();
+        return view('dashboard.doctors.index' , ['doctors' => $doctors , 'hospitals' => $hospitals]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -41,19 +35,17 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request , [
+            'name' => 'required',
+            'phone_number' => 'required',
+            'gender' => 'required',
+        ]);
+
+        $doctor = Doctor::create($request->all());
+        \Session::flash('success' , 'Doctor Successfully add');
+        return redirect()->route('doctors.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -61,9 +53,10 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Doctor $doctor)
     {
-        //
+        $hospitals = Hospital::all();
+        return view('dashboard.doctors.edit' , ['doctor' => $doctor , 'hospitals' => $hospitals]);
     }
 
     /**
@@ -73,9 +66,12 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Doctor $doctor)
     {
-        //
+        $doctor->update($request->all());
+        \Session::flash('success' , 'Doctor Successfully update');
+        return redirect()->route('doctors.index');
+
     }
 
     /**
@@ -84,8 +80,10 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Doctor $doctor)
     {
-        //
+        $doctor->delete();
+        \Session::flash('success' , 'Doctor Successfully delete');
+        return redirect()->route('doctors.index');       
     }
 }

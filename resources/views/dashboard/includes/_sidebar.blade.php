@@ -16,29 +16,43 @@
                 <h3 class="uppercase">لوحة التحكم</h3>
             </li>
             <li class="nav-item  ">
-                <a href="" class="nav-link nav-toggle">
+                <a href="{{route('index')}}" class="nav-link nav-toggle">
                     <i class="icon-home"></i>
                     <span class="title">الصفحة الرئيسية</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{Route('patients.index')}}" class="nav-link nav-toggle">
+                <a href="{{Route('users.index')}}" class="nav-link nav-toggle">
                     <i class="icon-user"></i>
-                    <span class="title">المرضى</span>
+                    <span class="title">المستخدمين</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="" class="nav-link nav-toggle">
+                <a href="{{route('hospitals.index')}}" class="nav-link nav-toggle">
                     <i class="icon-user"></i>
-                    <span class="title">التقنين</span>
+                    <span class="title">المستشفيات</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="" class="nav-link nav-toggle">
+                <a href="{{route('sections.index')}}" class="nav-link nav-toggle">
                     <i class="icon-user"></i>
-                    <span class="title">اصحاب المحال</span>
+                    <span class="title">الاقسام</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{route('bookings.index')}}" class="nav-link nav-toggle">
+                    <i class="icon-user"></i>
+                    <span class="title">الحجوزات</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{route('doctors.index')}}" class="nav-link nav-toggle">
+                    <i class="icon-user"></i>
+                    <span class="title">الاطباء</span>
                 </a>
             </li>
 

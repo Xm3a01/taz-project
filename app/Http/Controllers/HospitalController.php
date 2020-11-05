@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Hospital;
 use Illuminate\Http\Request;
 
 class HospitalController extends Controller
@@ -13,18 +14,10 @@ class HospitalController extends Controller
      */
     public function index()
     {
-        //
+        $hospitals = Hospital::all();
+        return view('dashboard.hospitals.index' , ['hospitals' => $hospitals]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -34,19 +27,16 @@ class HospitalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request , [
+            'name' => 'required',
+            'duity' => 'required' 
+        ]);
+
+        Hospital::create($request->all());
+        \Session::flash('success' , 'Hospital successfuly add');
+        return redirect()->route('hospitals.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -54,9 +44,9 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Hospital $hospital)
     {
-        //
+        return view('dashboard.hospitals.edit' , ['hospital' => $hospital]);
     }
 
     /**
@@ -66,9 +56,11 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Hospital $hospital)
     {
-        //
+        $hospital->update($request->all());
+        \Session::flash('success' , 'Hospital Successfully update');
+        return redirect()->route('hospitals.index');
     }
 
     /**
@@ -77,8 +69,10 @@ class HospitalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Hospital $hospital)
     {
-        //
+        $hospital->delete();
+        \Session::flash('success' , 'Hospital Successfully update');
+        return redirect()->route('hospitals.index');
     }
 }

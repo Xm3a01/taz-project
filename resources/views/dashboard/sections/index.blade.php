@@ -1,5 +1,5 @@
 @extends('dashboard.metronic')
-@section('title', ' جدول الأدمن')
+@section('title', ' جدول الاقسام')
 @section('content')
 <!-- BEGIN PAGE-BAR -->
 <div class="page-bar">
@@ -9,21 +9,21 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <a href="{{route('patients.index')}}">الأدمن</a>
+            <a href="{{route('sections.index')}}">الاقسام</a>
             <i class="fa fa-circle"></i>
         </li>
     </ul>
 </div>
 <!-- END PAGE-BAR -->
 
-<h3 class="page-title"> الأدمن </h3>
+<h3 class="page-title"> الاقسام </h3>
 
 <!-- BEGIN DATATABLE -->
 <div class="portlet light bordered">
     <div class="portlet-title">
         <div class="caption">
             <i class="icon-social-dribbble font-green"></i>
-            <span class="caption-subject font-green bold uppercase">جدول الأدمن</span>
+            <span class="caption-subject font-green bold uppercase">جدول الاقسام</span>
         </div>
     </div>
     <div class="portlet-body">
@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="btn-group">
-                        <button data-toggle="modal" class="btn sbold green" href="#add_admin"> أضافة مستخدم
+                        <button data-toggle="modal" class="btn sbold green" href="#add_admin"> أضافة قسم
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>
@@ -45,23 +45,21 @@
                     <tr>
                         <th> # </th>
                         <th>الأسم</th>
-                        <th>الأيميل</th>
-                        <th>العمر</th>
+                        <th>المشفى</th>
                         <th>العمليات</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    @foreach($patients as $patient)
+                    @foreach($sections as $section)
                     <tr>
-                        <td>{{$patient->id}}</td>
-                        <td>{{$patient->name}}</td>
-                        <td>{{$patient->phone}}</td>
-                        <td>{{$patient->age}}</td>
+                        <td>{{$section->id}}</td>
+                        <td>{{$section->name}}</td>
+                        <td>{{$section->hospital->name}}</td>
                         <td>
-                            <form action="{{route('patients.destroy', $patient->id)}}" method="POST">
+                            <form action="{{route('sections.destroy', $section->id)}}" method="POST">
                                 @csrf {{ method_field('DELETE') }}
-                                <a href="{{route('patients.edit', $patient->id)}}"
+                                <a href="{{route('sections.edit', $section->id)}}"
                                     class="btn dark btn-sm btn-outline sbold uppercase">
                                     <i class="fa fa-edit"> تعديل </i>
                                 </a>
@@ -86,26 +84,20 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">أضافة مشروع</h4>
+                <h4 class="modal-title">أضافة مشفى</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ route('patients.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('sections.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label>الأسم</label>
                         <input type="name" name="name" class="form-control" placeholder="الأسم" required>
 
-                        <label>الأيميل</label>
-                        <input type="text" name="phone" class="form-control" placeholder="phone" required>
-
-                        <label>كلمة المرور</label>
-                        <input type="text" name="age" class="form-control" required>
-
-                        <label>الاسم</label>
-                        <select class="form-control" name="user_id">
-                            <option value="">Select name</option>
-                            @foreach ($users as $user)    
-                               <option value="{{$user->id}}">{{$user->name}}</option>
+                        <label>المشفى</label>
+                        <select class="form-control" name="hospital_id">
+                            <option value="">المشفى</option>
+                            @foreach ($hospitals as $hospital)    
+                               <option value="{{$hospital->id}}">{{$hospital->name}}</option>
                             @endforeach
                         </select>
                        

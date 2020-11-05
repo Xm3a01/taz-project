@@ -1,5 +1,5 @@
 @extends('dashboard.metronic')
-@section('title', ' جدول الاطباء')
+@section('title', ' جدول الحجوزات')
 @section('content')
 <!-- BEGIN PAGE-BAR -->
 <div class="page-bar">
@@ -9,21 +9,21 @@
             <i class="fa fa-circle"></i>
         </li>
         <li>
-            <a href="{{route('doctors.index')}}">الاطباء</a>
+            <a href="{{route('bookings.index')}}">الحجوزات</a>
             <i class="fa fa-circle"></i>
         </li>
     </ul>
 </div>
 <!-- END PAGE-BAR -->
 
-<h3 class="page-title"> الاطباء </h3>
+<h3 class="page-title"> الحجوزات </h3>
 
 <!-- BEGIN DATATABLE -->
 <div class="portlet light bordered">
     <div class="portlet-title">
         <div class="caption">
             <i class="icon-social-dribbble font-green"></i>
-            <span class="caption-subject font-green bold uppercase">جدول الاطباء</span>
+            <span class="caption-subject font-green bold uppercase">جدول الحجوزات</span>
         </div>
     </div>
     <div class="portlet-body">
@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="btn-group">
-                        <button data-toggle="modal" class="btn sbold green" href="#add_admin"> أضافة طبيب
+                        <button data-toggle="modal" class="btn sbold green" href="#add_admin"> أضافة حجز
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>
@@ -44,26 +44,30 @@
                 <thead>
                     <tr>
                         <th> # </th>
-                        <th>الأسم</th>
-                        <th>الهاتف</th>
-                        <th>الجنس</th>
-                        <th>مكان العمل</th>
+                        <th>اسم المريض</th>
+                        <th>هاتف المريض</th>
+                        <th>اسم المشفى</th>
+                        <th>صاحب الحجز</th>
+                        <th>تاريخ الحجز</th>
+                        <th>الدوام</th>
                         <th>العمليات</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    @foreach($doctors as $doctor)
+                    @foreach($bookings as $booking)
                     <tr>
-                        <td>{{$doctor->id}}</td>
-                        <td>{{$doctor->name}}</td>
-                        <td>{{$doctor->phone_number}}</td>
-                        <td>{{$doctor->hospital->name}}</td>
-                        <td>{{$doctor->gender ? 'انثى' : 'ذكر'}}</td>
+                        <td>{{$booking->id}}</td>
+                        <td>{{$booking->patient_name}}</td>
+                        <td>{{$booking->patient_phone}}</td>
+                        <td>{{$booking->hospital->name}}</td>
+                        <td>{{$booking->user->name}}</td>
+                        <td>{{$booking->date_of_booking}}</td>
+                        <td>{{$booking->hospital->duity ? 'مساء' : 'صباح'}}</td>
                         <td>
-                            <form action="{{route('doctors.destroy', $doctor->id)}}" method="POST">
+                            <form action="{{route('bookings.destroy', $booking->id)}}" method="POST">
                                 @csrf {{ method_field('DELETE') }}
-                                <a href="{{route('doctors.edit', $doctor->id)}}"
+                                <a href="{{route('bookings.edit', $booking->id)}}"
                                     class="btn dark btn-sm btn-outline sbold uppercase">
                                     <i class="fa fa-edit"> تعديل </i>
                                 </a>
@@ -91,28 +95,32 @@
                 <h4 class="modal-title">أضافة مشروع</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ route('doctors.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('bookings.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="form-group">
                         <label>الأسم</label>
-                        <input type="name" name="name" class="form-control" placeholder="الأسم" required>
+                        <input type="name" name="patient_name" class="form-control" placeholder="اسم المريض" required>
 
-                        <label>الهاتف</label>
-                        <input type="text" name="phone_number" class="form-control" placeholder="الهاتف" required>
+                        <label>هاتف المريض</label>
+                        <input type="name" name="patient_phone" class="form-control" placeholder="هاتف المريض" required>
 
-                        <label> مكان العمل</label>
-                        <select name="hospital_id" id="" class="form-control">
-                            <option value="">مكان العمل</option>
-                            @foreach ($hospitals as $hospital)  
-                              <option value="{{$hospital->id}}">{{$hospital->name}}</option>
+                        <label>الأسم</label>
+                        <input type="date" name="date_of_booking" class="form-control" placeholder="تاريخ الحجز" required>
+
+                        <label>صاحب الحجز</label>
+                        <select name="user_id" id="" class="form-control">
+                            <option value="" selected>صاحب الحجز</option>
+                            @foreach ($users as $user)   
+                              <option value="{{$user->id}}" >{{$user->name}}</option>
                             @endforeach
                         </select>
 
-                        <label> الجنس</label>
-                        <select name="gender" id="" class="form-control">
-                            <option value="">الجنس</option>
-                            <option value="0">ذكر</option>
-                            <option value="1">أنثى</option>
+                        <label>المشفى</label>
+                        <select name="hospital_id" id="" class="form-control">
+                            <option value="" selected>المشفى</option>
+                            @foreach ($hospitals as $hospital)   
+                              <option value="{{$hospital->id}}" >{{$hospital->name}}</option>
+                            @endforeach
                         </select>
                        
                        </div>

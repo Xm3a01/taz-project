@@ -19,9 +19,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => 'dashboard','middleware' => 'auth'] , function(){
+Route::group(['prefix' => 'dashboard','middleware' => 'admin'] , function(){
     Route::get('/', 'IndexController@index')->name('index');
-    Route::resource('patients','PatientController');
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::resource('users','UserController');
+    Route::resource('bookings','BookingController');
+    Route::resource('doctors','DoctorController');
+    Route::resource('sections','SectionController');
+    Route::resource('hospitals','HospitalController');
+    // Route::get('/home', 'HomeController@index')->name('home');
 });
 
